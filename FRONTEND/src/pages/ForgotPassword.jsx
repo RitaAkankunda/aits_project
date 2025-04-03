@@ -25,9 +25,12 @@ const ForgotPassword = () => {
     }
 
     try {
-      const res = await axios.post("http://localhost:8000/api/forgotPassword", {
-        email,
-      });
+      const res = await axios.post(
+        "https://rita004.pythonanywhere.com/api/forgotPassword",
+        {
+          email,
+        }
+      );
 
       if (res.data.success) {
         toast.success(res.data.message);
@@ -42,48 +45,47 @@ const ForgotPassword = () => {
 
   return (
     <>
-    <TopNavbar/>
-    <div className="forgot-password-container">
-      <div className="forgot-password-box">
-        <h5 className="forgot-password-title">Forgot Password</h5>
-        <p className="forgot-password-text">
-          Enter your email to reset your password.
-        </p>
-        <Form className="forgot-password-form" onSubmit={handleSubmit}>
-          <Form.Group className="forgot-password-group">
-            <Form.Label htmlFor="email" className="forgot-password-label">
-              Email
-            </Form.Label>
-            <Form.Control
-              id="email"
-              type="email"
-              name="email"
-              placeholder="Enter your email"
-              required
-              className="forgot-password-input"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              isInvalid={!!errors.email}
-            />
-            <Form.Control.Feedback type="invalid">
-              {errors.email}
-            </Form.Control.Feedback>
-          </Form.Group>
+      <TopNavbar />
+      <div className="forgot-password-container">
+        <div className="forgot-password-box">
+          <h5 className="forgot-password-title">Forgot Password</h5>
+          <p className="forgot-password-text">
+            Enter your email to reset your password.
+          </p>
+          <Form className="forgot-password-form" onSubmit={handleSubmit}>
+            <Form.Group className="forgot-password-group">
+              <Form.Label htmlFor="email" className="forgot-password-label">
+                Email
+              </Form.Label>
+              <Form.Control
+                id="email"
+                type="email"
+                name="email"
+                placeholder="Enter your email"
+                required
+                className="forgot-password-input"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                isInvalid={!!errors.email}
+              />
+              <Form.Control.Feedback type="invalid">
+                {errors.email}
+              </Form.Control.Feedback>
+            </Form.Group>
 
-          <Button type="submit" className="forgot-password-button">
-            Submit
-          </Button>
-        </Form>
-        <p className="forgot-password-text">
-          Remember your password?{" "}
-          <a href="/login" className="forgot-password-link">
-            Login Here
-          </a>
-        </p>
+            <Button type="submit" className="forgot-password-button">
+              Submit
+            </Button>
+          </Form>
+          <p className="forgot-password-text">
+            Remember your password?{" "}
+            <a href="/login" className="forgot-password-link">
+              Login Here
+            </a>
+          </p>
+        </div>
       </div>
-    </div>
     </>
-    
   );
 };
 

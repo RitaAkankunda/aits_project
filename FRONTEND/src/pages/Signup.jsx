@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { useAuth } from "../contexts/AuthContext"; // Import useAuth
-import { useRole } from "../contexts/RoleContext"; 
+import { useRole } from "../contexts/RoleContext";
 import TopNavbar from "../components/Navbar";
 import FormInput from "../components/FormInput";
 import { Form, Button } from "react-bootstrap";
@@ -49,7 +49,7 @@ function Signup() {
       setErrors(formErrors);
     } else {
       setErrors({});
-  
+
       // Remove unnecessary fields based on the selected role
       const requestData = {
         email,
@@ -57,23 +57,27 @@ function Signup() {
         first_name: firstName,
         last_name: lastName,
         role,
-        ...(role === 'STUDENT' && { student_number: roleSpecificId }),
-        ...(role === 'LECTURER' && { lecturer_number: roleSpecificId }),
-        ...(role === 'REGISTRAR' && { registrar_number: roleSpecificId }),
+        ...(role === "STUDENT" && { student_number: roleSpecificId }),
+        ...(role === "LECTURER" && { lecturer_number: roleSpecificId }),
+        ...(role === "REGISTRAR" && { registrar_number: roleSpecificId }),
       };
-  
+
       console.log("Filtered Request Data:", requestData); // Log the filtered request data
-  
+
       try {
-        const response = await axios.post("http://localhost:8000/api/register/", requestData, {
-          headers: {
-            "Authorization": null,
-            "Content-Type": "application/json",
-          },
-        });
-  
+        const response = await axios.post(
+          "https://rita004.pythonanywhere.com/api/register/",
+          requestData,
+          {
+            headers: {
+              Authorization: null,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
         console.log(response); // Log the response to check if there's an issue with the response format
-  
+
         if (response.status === 201 || response.status === 200) {
           changeRole(role);
           toast.success("Signup successful");
@@ -85,14 +89,14 @@ function Signup() {
         }
       } catch (error) {
         console.error("Error:", error); // Log the error if something fails
-  
+
         if (error.response && error.response.data) {
           console.error("Full error response:", error.response.data); // Log the full response from the server
-  
+
           // Check if the error has a detailed message and field info
           const errorMessage = error.response.data.message || "Signup failed.";
-          const field = error.response.data.field || "Unknown field";  // Look for 'field' in the response
-  
+          const field = error.response.data.field || "Unknown field"; // Look for 'field' in the response
+
           // Display the error message with the field if possible
           setErrors({
             form: `${errorMessage} (Missing: ${field})`,
@@ -103,13 +107,6 @@ function Signup() {
       }
     }
   };
-  
-  
-  
-  
-  
-  
-
 
   return (
     <>
@@ -166,7 +163,9 @@ function Signup() {
                   setRoleSpecificId("");
                 }}
               >
-                <option value="" disabled>Pick a Role</option>
+                <option value="" disabled>
+                  Pick a Role
+                </option>
                 <option value="STUDENT">Student</option>
                 {/* <option value="LECTURER">Lecturer</option> THIS IS NOT READY */}
                 <option value="REGISTRAR">Registrar</option>
@@ -175,10 +174,13 @@ function Signup() {
 
             <FormInput
               controlId="formRoleSpecificId"
-              label={role === "STUDENT" ? "Student Number" : 
-                // role === "LECTURER" ? "Lecturer Number" : 
-                role === "REGISTRAR" ? "Registrar Number"  : 
-                "Select Role First"
+              label={
+                role === "STUDENT"
+                  ? "Student Number"
+                  : // role === "LECTURER" ? "Lecturer Number" :
+                  role === "REGISTRAR"
+                  ? "Registrar Number"
+                  : "Select Role First"
               }
               value={roleSpecificId}
               onChange={(e) => setRoleSpecificId(e.target.value)}

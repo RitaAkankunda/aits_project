@@ -49,7 +49,7 @@ const IssueForm = () => {
       console.log("Request Payload:", payload);
 
       const response = await axios.post(
-        "http://127.0.0.1:8000/api/issues/",
+        "https://rita004.pythonanywhere.com/api/issues/",
         payload,
         {
           headers: {

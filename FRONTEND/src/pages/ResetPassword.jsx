@@ -3,7 +3,7 @@ import axios from "axios";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Form, Button } from "react-bootstrap";
-import "../css/pagecss/ResetPassword.css"; 
+import "../css/pagecss/ResetPassword.css";
 
 const ResetPassword = () => {
   const [searchParams] = useSearchParams();
@@ -35,9 +35,12 @@ const ResetPassword = () => {
 
     try {
       const formData = { id, token, password: newPassword };
-      const res = await axios.post("http://localhost:8000/api/resetPassword", formData);
+      const res = await axios.post(
+        "https://rita004.pythonanywhere.com/api/resetPassword",
+        formData
+      );
       const data = res.data;
-      
+
       if (data.success) {
         toast.success(data.message);
         navigate("/login");
@@ -76,7 +79,10 @@ const ResetPassword = () => {
           </Form.Group>
 
           <Form.Group className="reset-password-group">
-            <Form.Label htmlFor="confirmpassword" className="reset-password-label">
+            <Form.Label
+              htmlFor="confirmpassword"
+              className="reset-password-label"
+            >
               Confirm Password
             </Form.Label>
             <Form.Control

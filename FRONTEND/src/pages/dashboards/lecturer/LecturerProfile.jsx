@@ -8,7 +8,6 @@ function LecturerProfile() {
     lastName: "",
     email: "",
     department: "",
-    
   });
 
   // UseEffect hook to fetch the lecturer profile data when the component mounts
@@ -16,13 +15,16 @@ function LecturerProfile() {
     const fetchProfile = async () => {
       try {
         const token = localStorage.getItem("authToken"); // Retrieving auth token
-        const response = await fetch("http://localhost:8000/api/lecturer/profile/", {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        });
+        const response = await fetch(
+          "https://rita004.pythonanywhere.com/api/lecturer/profile/",
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
 
         if (!response.ok) {
           throw new Error("Failed to fetch profile data");
@@ -34,7 +36,6 @@ function LecturerProfile() {
           lastName: lecturerInfo.last_name,
           email: lecturerInfo.email,
           department: lecturerInfo.department,
-          
         });
       } catch (error) {
         console.error("Error fetching profile:", error);
@@ -49,21 +50,28 @@ function LecturerProfile() {
       <div style={styles.container}>
         <h1>Lecturer Profile</h1>
         <div style={styles.profileInfo}>
-          <p><strong>First Name:</strong> {lecturer.firstName}</p>
-          <p><strong>Last Name:</strong> {lecturer.lastName}</p>
-          <p><strong>Email:</strong> {lecturer.email}</p>
-          <p><strong>Department:</strong> {lecturer.department}</p>
-          
+          <p>
+            <strong>First Name:</strong> {lecturer.firstName}
+          </p>
+          <p>
+            <strong>Last Name:</strong> {lecturer.lastName}
+          </p>
+          <p>
+            <strong>Email:</strong> {lecturer.email}
+          </p>
+          <p>
+            <strong>Department:</strong> {lecturer.department}
+          </p>
         </div>
 
         <div style={styles.updateSection}>
           <h1>Update Profile Information</h1>
           <p>To update your profile, fill out the fields below:</p>
-          
+
           <div style={styles.inputField}>
             <label>First Name:</label>
-            <input 
-              type="text" 
+            <input
+              type="text"
               defaultValue={lecturer.firstName}
               className="editable"
               // Optionally, you can add an onChange handler to update state
@@ -72,8 +80,8 @@ function LecturerProfile() {
 
           <div style={styles.inputField}>
             <label>Last Name:</label>
-            <input 
-              type="text" 
+            <input
+              type="text"
               defaultValue={lecturer.lastName}
               className="editable"
             />
@@ -81,8 +89,8 @@ function LecturerProfile() {
 
           <div style={styles.inputField}>
             <label>Email:</label>
-            <input 
-              type="email" 
+            <input
+              type="email"
               defaultValue={lecturer.email}
               className="editable"
             />
@@ -90,8 +98,8 @@ function LecturerProfile() {
 
           <div style={styles.inputField}>
             <label>Department:</label>
-            <input 
-              type="text" 
+            <input
+              type="text"
               defaultValue={lecturer.department}
               className="editable"
             />
@@ -143,6 +151,4 @@ const styles = {
   },
 };
 
-
 export default LecturerProfile;
-

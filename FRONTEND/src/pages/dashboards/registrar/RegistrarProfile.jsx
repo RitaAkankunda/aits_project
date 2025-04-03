@@ -1,6 +1,6 @@
 // import { useState, useEffect } from "react";
 import DashboardLayout from "../../../layouts/DashboardLayout";
-import "../../../css/dashboardcss/registrar/RegistrarProfile.css"
+import "../../../css/dashboardcss/registrar/RegistrarProfile.css";
 //declaring state for the registrar's profile by defining a component(RegistrarProfile)
 function RegistrarProfile() {
   // const [registrar, setRegistrar] = useState({
@@ -11,12 +11,12 @@ function RegistrarProfile() {
   // });
 
   // useEffect(() => {
-  //   // Fetching registrar's information depending on what was submitted when signing in 
+  //   // Fetching registrar's information depending on what was submitted when signing in
   //   const fetchProfile = async () => {
   //     try {
   //       const token = localStorage.getItem("authToken"); //Retrieving authentication token from the local storage
-  //       const response = await fetch("http://localhost:8000/api/profile/", { //sending a get request to that API to fetch profile data
-  //         method: "GET", 
+  //       const response = await fetch("https://rita004.pythonanywhere.com/api/profile/", { //sending a get request to that API to fetch profile data
+  //         method: "GET",
   //         headers: {
   //           Authorization: `Bearer ${token}`,
   //           "Content-Type": "application/json",
@@ -46,17 +46,16 @@ function RegistrarProfile() {
     <DashboardLayout>
       <div className="reg-prof-container">
         <div className="reg-prof-heading">
-        <h1>Registrar Profile</h1>
-
+          <h1>Registrar Profile</h1>
         </div>
-        
+
         {/* <div style={styles.profileInfo}>
           <p><strong>First Name:</strong> {registrar.firstName}</p>
           <p><strong>Last Name:</strong> {registrar.lastName}</p>
           <p><strong>Email:</strong> {registrar.email}</p>
           <p><strong>Registrar ID:</strong> {registrar.registrarId}</p>
         </div> */}
-      {/* <div>
+        {/* <div>
         <h1>Change Password</h1>
         <p>To change password fill these fields;</p>
         <p>Old Password:<span contentEditable="true" class = "editable"></span></p>
@@ -69,7 +68,7 @@ function RegistrarProfile() {
   );
 }
 
-//css styles for the container 
+//css styles for the container
 const styles = {
   container: {
     maxWidth: "600px",
@@ -86,14 +85,11 @@ const styles = {
     color: "#333",
   },
 
-  Editable:{
-    display:"inline",
+  Editable: {
+    display: "inline",
     outline: "none",
     cursor: "text",
-
-
   },
 };
-
 
 export default RegistrarProfile;
