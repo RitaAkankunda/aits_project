@@ -3,7 +3,7 @@ import axios from "axios";
 import { useAuth } from "../../../contexts/AuthContext";
 import DashboardLayout from "../../../layouts/DashboardLayout";
 import "../../../css/dashboard.css";
-import "../../../css/dashboardcss/Lecturer/LecturerIssues.css";
+import "../../../css/dashboardcss/lecturer/LecturerIssues.css";
 
 function LecturerIssues() {
   const [issues, setIssues] = useState([]); // Store all issues

@@ -1,6 +1,6 @@
 import DashboardLayout from "../../../layouts/DashboardLayout";
 // import {useEffect,useState} from 'react';
-import "../../../css/dashboardcss/Lecturer/LecturerNotifications.css";
+import "../../../css/dashboardcss/lecturer/LecturerNotifications.css";
 
 
 
