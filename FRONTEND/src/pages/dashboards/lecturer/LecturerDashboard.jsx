@@ -1,6 +1,6 @@
 import DashboardLayout from "../../../layouts/DashboardLayout";
 import React, { useEffect, useState } from "react";
-import "../../../css/dashboardcss/Lecturer/LecturerDashboard.css";
+import "../../../css/dashboardcss/lecturer/LecturerDashboard.css";
 import { useAuth } from "../../../contexts/AuthContext";
 import axios from "axios";
 
