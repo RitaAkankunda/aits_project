@@ -1,0 +1,79 @@
+/* Home.css */
+
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: "Segoe UI", Roboto, sans-serif;
+    background: #f4f7fa;
+  }
+  
+  .home-container {
+    min-height: 100vh;
+    background: url("../../assets/cocis.jpg") center/cover no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+    text-align: center;
+  }
+  
+  .hero-section {
+    background: transparent;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    color: #fff;
+    padding: 60px 40px;
+    border-radius: 15px;
+    max-width: 600px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    
+  }
+  
+  .hero-section h1 {
+    font-size: 2.5rem;
+    color: #ffffff;
+    margin-bottom: 20px;
+  }
+  
+  .hero-section p {
+    font-size: 1.1rem;
+    color: #fff;
+    margin-bottom: 35px;
+  }
+  
+  .auth-buttons {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+  }
+  
+  .btn-home {
+    padding: 12px 28px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+  }
+  
+  .signup-btn {
+    background-color: #1e88e5;
+    color: #fff;
+    border: none;
+  }
+  
+  .signup-btn:hover {
+    background-color: #1565c0;
+  }
+  
+  .login-btn {
+    background-color: #f1f1f1;
+    color: #333;
+    border: 1px solid #ccc;
+  }
+  
+  .login-btn:hover {
+    background-color: #e0e0e0;
+    border-color: #999;
+  }
+  

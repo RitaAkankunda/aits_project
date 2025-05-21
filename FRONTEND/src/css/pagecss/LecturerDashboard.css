@@ -1,136 +1,167 @@
-/* General styles for the dashboard layout */
-.dashboard-header {
-    background-color: #4CAF50; /* Green background for the header */
-    color: white;
-    padding: 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+/* LecturerDashboard.css */
+.lecturer-dashboard-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Heading Section */
+.lec-heading-dash {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.lec-heading-dash h2 {
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* Stats Container */
+.stats-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.stat-box {
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  flex: 1 1 300px;
+  max-width: 350px;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+}
+
+.stat-box:hover {
+  transform: translateY(-5px);
+}
+
+.stat-box h3 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  color: #555;
+}
+
+.stat-box p {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #007bff;
+}
+
+/* Issues List */
+.lecturer-issues-list {
+  margin-top: 40px;
+}
+
+.lecturer-issues-list h3 {
+  font-size: 1.8rem;
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* Table Wrapper for Scrollability */
+.table-wrapper {
+  overflow-x: auto;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+.large-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #fff;
+  font-size: 1.2rem; /* Increased font size */
+}
+
+.large-table th,
+.large-table td {
+  padding: 16px; /* Increased padding */
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+  min-width: 120px; /* Minimum column width for better spacing */
+}
+
+.large-table th {
+  background-color: #f4f4f4;
+  font-weight: 600;
+  color: #333;
+}
+
+.large-table td {
+  color: #555;
+}
+
+.large-table tr:hover {
+  background-color: #f9f9f9;
+}
+
+/* Specific Column Widths for Better Proportions */
+.large-table th:nth-child(1),
+.large-table td:nth-child(1) {
+  width: 8%; /* ID */
+}
+
+.large-table th:nth-child(2),
+.large-table td:nth-child(2) {
+  width: 20%; /* Student Name */
+}
+
+.large-table th:nth-child(3),
+.large-table td:nth-child(3) {
+  width: 15%; /* Student Number */
+}
+
+.large-table th:nth-child(4),
+.large-table td:nth-child(4) {
+  width: 25%; /* Title */
+}
+
+.large-table th:nth-child(5),
+.large-table td:nth-child(5) {
+  width: 15%; /* Category */
+}
+
+.large-table th:nth-child(6),
+.large-table td:nth-child(6) {
+  width: 12%; /* Status */
+}
+
+.large-table th:nth-child(7),
+.large-table td:nth-child(7) {
+  width: 15%; /* Created At */
+}
+
+/* Status Styling */
+.status-resolved-highlight {
+  color: #28a745;
+  font-weight: bold;
+}
+
+.status-pending {
+  color: #ffc107;
+  font-weight: bold;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .stat-box {
+    flex: 1 1 100%;
+    max-width: 100%;
   }
-  
-  .header-container {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    align-items: center;
+
+  .large-table {
+    font-size: 1rem; /* Slightly smaller font on mobile */
   }
-  
-  .project-name {
-    font-size: 24px;
-    font-weight: bold;
-  }
-  
-  .lecturer-infor {
-    display: flex;
-    flex-direction: column;
-    text-align: left;
-  }
-  
-  .lecturer-name,
-  .department-name {
-    font-size: 16px;
-  }
-  
-  .search-bar {
+
+  .large-table th,
+  .large-table td {
     padding: 10px;
-    font-size: 16px;
-    width: 200px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
+    min-width: 100px;
   }
-  
-  .logout-button {
-    padding: 10px 15px;
-    background-color: #f44336; /* Red button */
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-  }
-  
-  .logout-button:hover {
-    background-color: #d32f2f;
-  }
-  
-  /* Main content styling */
-  h2 {
-    font-size: 22px;
-    margin-top: 20px;
-    color: #333;
-  }
-  
-  p {
-    color: #555;
-    font-size: 16px;
-  }
-  
-  .values-container {
-    display: flex;
-    justify-content: space-around;
-    margin-top: 30px;
-    flex-wrap: wrap;
-  }
-  
-  .values {
-    text-align: center;
-    margin: 20px;
-    padding: 15px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    background-color: #f9f9f9;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    width: 220px;
-  }
-  
-  .values h4 {
-    margin-bottom: 10px;
-    color: #333;
-    font-size: 18px;
-  }
-  
-  .values p {
-    font-size: 24px;
-    font-weight: bold;
-    color: #4CAF50; /* Green color for the values */
-  }
-  
-  /* Loading and error handling */
-  .loading,
-  .error {
-    text-align: center;
-    font-size: 18px;
-    margin-top: 20px;
-  }
-  
-  .loading {
-    color: #f9a825; /* Yellow loading color */
-  }
-  
-  .error {
-    color: #f44336; /* Red error color */
-  }
-  
-  /* Issue card styling (you can customize it further) */
-  .issue-card-container {
-    margin-top: 30px;
-  }
-  
-  .issue-card-container .issue-card {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
-  }
-  
-  .issue-card-container .issue-card h3 {
-    font-size: 20px;
-    margin-bottom: 10px;
-  }
-  
-  .issue-card-container .issue-card p {
-    font-size: 16px;
-    color: #555;
-  }
-  
+}

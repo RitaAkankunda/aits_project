@@ -1,81 +1,88 @@
-import { useState, useEffect } from 'react';
 import DashboardLayout from "../../../layouts/DashboardLayout";
+// import {useEffect,useState} from 'react';
+import "../../../css/dashboardcss/Lecturer/LecturerNotifications.css";
+
+
+
 
 function LecturerNotifications() {
-  // State to hold the list of notifications
-  const [notifications, setNotifications] = useState([]);
+  // const [notifications, setNotifications] = useState([]);  
+  // const [status, setStatus] = useState("Connecting...");
 
-  // WebSocket connection initialization in useEffect
-  useEffect(() => {
-    // Step 1: Create a WebSocket connection to the server
-    // Replace 'ws://localhost:8080' with the URL of your WebSocket server
-    const socket = new WebSocket('ws://localhost:8080');
+  // useEffect(() => {
+  //   // Connecting to Django WebSocket server
+  //   const socket = new WebSocket("ws://localhost:8000/ws/notifications/"); //creating a new web socket connection with django server
 
-    // Step 2: Listen for incoming WebSocket messages
-    socket.onmessage = (event) => {
-      // Parse the incoming message, which is expected to be a JSON object
-      const message = JSON.parse(event.data);
-      
-      // Check if the message is a notification
-      if (message.type === 'notification') {
-        // Step 3: Update the notifications state with the new notification message
-        setNotifications((prevNotifications) => [
-          ...prevNotifications,
-          message.message, // Add new message to the notifications array
-        ]);
-      }
-    };
+  //   // WebSocket connected
+  //   socket.onopen = () => {
+  //     console.log("WebSocket Connected!");
+  //     setStatus("Connected ✅");
+  //   };
 
-    // Step 4: Handle WebSocket connection open event (optional)
-    socket.onopen = () => {
-      console.log("WebSocket connection established!");
-    };
+  //   // WebSocket receives a message
+  //   socket.onmessage = (event) => {
+  //     const data = JSON.parse(event.data);
+  //     setNotifications((prev) => [data.message, ...prev]);
+  //   };
 
-    // Step 5: Handle WebSocket connection error event
-    socket.onerror = (error) => {
-      console.error("WebSocket error:", error);
-    };
+  //   // WebSocket error handling
+  //   socket.onerror = (error) => {
+  //     console.error("WebSocket Error:", error);
+  //     setStatus("Connection Failed ❌");
+  //   };
 
-    // Step 6: Handle WebSocket close event
-    socket.onclose = () => {
-      console.log("WebSocket connection closed.");
-    };
+  //   // WebSocket disconnected
+  //   socket.onclose = () => {
+  //     console.warn("WebSocket Disconnected!");
+  //     setStatus("Disconnected 🔴");
+  //   };
 
-    // Cleanup function to close WebSocket when the component is unmounted
-    return () => {
-      socket.close(); // Close the WebSocket connection
-      console.log("WebSocket connection closed during cleanup.");
-    };
-  }, []); // Empty dependency array ensures the connection is established only once when the component mounts
+  //   // Cleanup WebSocket when the component unmounts
+  //   return () => socket.close();
+  // }, []);
 
   return (
     <DashboardLayout>
-      <div>
+      <div className="lec-notifs-container">
+        <div className="lec-heading-notifs">
         <h1>Lecturer Notifications</h1>
         <p>Check your recent notifications here.</p>
+        {/* <p>Status: {status}</p> */}
+        </div>
 
-        {/* Step 7: Display the notifications */}
-        <div className="notifications-section">
-          {/* If no notifications, show a placeholder message */}
+        
+       
+        
+        {/* <ul>
           {notifications.length === 0 ? (
             <p>No new notifications.</p>
           ) : (
-            // Otherwise, render the list of notifications
-            <ul className="notification-list">
-              {notifications.map((notification, index) => (
-                <li key={index} className="notification-item">
-                  <p>{notification}</p>
-                </li>
-              ))}
-            </ul>
+            notifications.map((notif, index) => (
+              <li key={index} className="bg-gray-200 p-2 my-2 rounded">
+                {notif}
+              </li>
+            ))
           )}
-        </div>
+        </ul> */}
       </div>
     </DashboardLayout>
   );
-}
-
-
-
-
+};
 export default LecturerNotifications;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

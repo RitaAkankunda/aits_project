@@ -1,160 +1,183 @@
-import IssueCard from "../../../components/IssueCard";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { useAuth } from "../../../contexts/AuthContext";
 import DashboardLayout from "../../../layouts/DashboardLayout";
-import React, { useState, useEffect } from 'react';
+import "../../../css/dashboard.css";
+import "../../../css/dashboardcss/Lecturer/LecturerIssues.css";
 
 function LecturerIssues() {
-  /* sample data for issues, comes from API */
-  const [issues, setIssues] = useState([]);
-  const [loading, setLoading] = useState(true); /* for showing a loading spinner */
-  const [error, setError] = useState(null); /* to handle errors during fetch */
-  const [searchQuery, setSearchQuery] = useState('');
-  const [statusFilter, setStatusFilter] = useState('');
-  const [sortOrder, setSortOrder] = useState('desc'); /*Sort order by submission date*/
+  const [issues, setIssues] = useState([]); // Store all issues
+  const [loading, setLoading] = useState(true); // Loading state
+  const [error, setError] = useState(""); // Error handling state
+  const [searchQuery, setSearchQuery] = useState("");
+  const [toastMsg, setToastMsg] = useState("");
+  const { user } = useAuth(); // Get logged-in user
 
-
-  /* fetch issues data from API */
+  // Fetching all issues 
   useEffect(() => {
     const fetchIssues = async () => {
       try {
-        /* replace with actual API URL */
-        const response = await fetch('/api/issues');
-
-        if (!response.ok) {
-          throw new Error('Failed to fetch issues');
+        if (!user || !user.token) {
+          setError("User not authenticated. Please log in again.");
+          setLoading(false);
+          return;
         }
-        const data = await response.json();
-        setIssues(data); /* set issues data in state */
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);   /* once done, stop loading spinner */
+
+        const response = await axios.get("http://127.0.0.1:8000/api/issues/", {
+          headers: {
+            Authorization: `Token ${user.token}`,
+          },
+        });
+
+        if (!Array.isArray(response.data)) {
+          setError("Unexpected response format from server.");
+          setLoading(false);
+          return;
+        }
+
+        setIssues(response.data);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching issues:", error);
+        if (error.response?.status === 401) {
+          setError("You are not authorized. Please log in again.");
+        } else {
+          setError("Failed to fetch issues. Please try again.");
+        }
+        setLoading(false);
       }
     };
 
-    fetchIssues(); /* call the function to fetch issues */
+    if (user && user.token) {
+      fetchIssues();
+    } else {
+      setLoading(false);
+    }
+  }, [user]);
 
-  }, []); /* empty array ensures this only runs once when the component mounts */
-
-  /* handle status update of an issue (mark as resolved, in progress, pending, unresolved) */
-  const handleUpdateStatus = async (id, newStatus) => {
+  const handleResolve = async (id) => {
     try {
-      /* send PUT request to update the issue status in the backend */
-      const response = await fetch(`/api/issues/${id}/status`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ status: newStatus })
-      });
+      await axios.post(
+        `http://127.0.0.1:8000/api/issues/${id}/resolve/`,
+        {},
+        {
+          headers: {
+            Authorization: `Token ${user.token}`,
+          },
+        }
+      );
 
-      if (!response.ok) {
-        throw new Error('Failed to update issue status');
-      }
-
-      /* update the status locally once the update is successful */
-      setIssues(issues.map((issue) =>
-        issue.id === id ? { ...issue, status: newStatus } : issue
-      ));
-    } catch (err) {
-      console.error(err);
+      const updatedIssues = issues.map((issue) =>
+        issue.id === id ? { ...issue, status: "Resolved" } : issue
+      );
+      setIssues(updatedIssues);
+      setToastMsg("Issue marked as resolved.");
+    } catch (error) {
+      console.error("Error resolving issue:", error);
+      setToastMsg("Failed to resolve issue.");
     }
   };
 
-  /* handling adding a comment to an issue */
-  const handleAddComment = async (id, newComment) => {
-    try {
-      // Send POST request to add a comment to the issue
-      const response = await fetch(`/api/issues/${id}/comments`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ comment: newComment })
-      });
+  const filteredIssues = issues.filter((issue) =>
+    issue.user?.first_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    issue.user?.last_name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
-      if (!response.ok) {
-        throw new Error("Failed to add comment");
-      }
-
-      // Fetch the updated issue list after adding the comment
-      const updatedIssue = await response.json();
-      setIssues(issues.map((issue) =>
-        issue.id === id ? { ...issue, comments: updatedIssue.comments } : issue
-      ));
-    } catch (err) {
-      console.error(err);
+  useEffect(() => {
+    if (toastMsg) {
+      const timeout = setTimeout(() => setToastMsg(""), 3000);
+      return () => clearTimeout(timeout);
     }
-  };
+  }, [toastMsg]);
 
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div style={{ color: "red" }}>{error}</div>;
 
-  // Search and filter logic
-  const filteredIssues = issues.filter(issue => {
-    return (
-      (issue.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
-       issue.description.toLowerCase().includes(searchQuery.toLowerCase())) &&
-      (statusFilter ? issue.status === statusFilter : true)
-    );
-  });
-
-  /*Sorting logic*/
-  const sortedIssues = filteredIssues.sort((a, b) => {
-    const dateA = new Date(a.submissionDate);
-    const dateB = new Date(b.submissionDate);
-    return sortOrder === 'desc' ? dateB - dateA : dateA - dateB;
-  });
-
-
-
-
-  /*Show loading spinner while fetching data*/
-  if (loading) {
-    return <div>Loading issues...</div>;
-  }
-
-  // Handle errors while fetching
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
-
-  // Main JSX to render the issues list
   return (
-    <DashboardLayout>
-      <div className='lecturer-issues'>
-        <h1>Lecturer Issues</h1>
-        <p>View and manage academic issues.</p>
-
-
-         {/* Search and Filter Section */}
-         <div className="search-filter">
-          <input
-            type="text"
-            placeholder="Search by title or description"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-          <select onChange={(e) => setStatusFilter(e.target.value)} value={statusFilter}>
-            <option value="">All Status</option>
-            <option value="pending">Pending</option>
-            <option value="in-progress">In Progress</option>
-            <option value="resolved">Resolved</option>
-          </select>
-          <select onChange={(e) => setSortOrder(e.target.value)} value={sortOrder}>
-            <option value="desc">Newest First</option>
-            <option value="asc">Oldest First</option>
-          </select>
+    <DashboardLayout role="Lecturer">
+      <div className="lec-issues-container">
+        <div className="lec-issues-heading">
+          <h1>Lecturer Issues</h1>
+          <p>View and manage all assigned academic issues.</p>
         </div>
+        
+        <input 
+          type="text"
+          placeholder='Search student by name...'
+          className='search-input'
+          value={searchQuery} 
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
 
-        <div className='issues-list'>
-          {/* display all issues */}
-          {sortedIssues.length === 0 ? (
-            <p>No issues available at the moment</p>
-          ) : (
-            sortedIssues.map((issue) => (
-              <IssueCard
-                key={issue.id}
-                issue={issue}
-                onUpdateStatus={handleUpdateStatus}
-                onAddComment={handleAddComment}
-              />
-            ))
-          )}
-        </div>
+        {toastMsg && <div className='toast-message'>{toastMsg}</div>}
+
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Student Name</th>
+                <th>Student Number</th>
+                <th>Title</th>
+                <th>Category</th>
+                <th>Status</th>
+                <th>Attachments</th>
+                <th>Created At</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredIssues.length > 0 ? (
+                filteredIssues.map((issue, index) => (
+                  <tr key={issue.id}>
+                    <td>{index + 1}</td>
+                    <td>{issue.user?.first_name} {issue.user?.last_name}</td>
+                    <td>{issue.user?.student_number}</td>
+                    <td>{issue.title}</td>
+                    <td>{issue.category}</td>
+                    <td>
+                      <span className={
+                        issue.status.toLowerCase() === 'resolved'
+                        ? 'status-resolved-highlight'
+                        : 'status-pending'
+                      }>
+                        {issue.status}
+                      </span>
+                    </td>
+                    <td>
+                      {issue.attachment ? (
+                        <a href={issue.attachment} target="_blank" rel="noopener noreferrer">
+                          Attachment
+                        </a>
+                      ) : (
+                        <span>No attachment</span>
+                      )}
+                    </td>
+                    <td>{new Date(issue.created_at).toLocaleDateString()}</td>
+                    <td>
+                      {issue.status.toLowerCase() !== 'resolved' ? (
+                        <button
+                          className='resolve-button'
+                          onClick={() => handleResolve(issue.id)}
+                        >
+                          Mark as Resolved
+                        </button>
+                      ) : (
+                        <span className='resolved-check'>issue resolved</span>
+                      )}
+                    </td>
+                    <td>
+                      <button disabled>Delete</button>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan='10' style={{ textAlign: 'center' }}>
+                    No issues found.
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
       </div>
     </DashboardLayout>
   );

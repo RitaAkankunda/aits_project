@@ -5,9 +5,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faHome,
   faGlobe,
-  faCogs,
-  faMapMarker,
-  faInfo,
+  // faCogs,
+  // faMapMarker,
+  // faInfo,
   faPowerOff,
 } from "@fortawesome/free-solid-svg-icons";
 import { toast } from "react-toastify";
@@ -53,7 +53,7 @@ const Sidebar = () => {
               <span className="nav-text">Issues</span>
             </Link>
           </li>
-          <li>
+          {/* <li>
             <Link to={`/dashboards/${role}/notifications`}>
               <FontAwesomeIcon icon={faMapMarker} className="fa-2x" />
               <span className="nav-text">Notifications</span>
@@ -70,7 +70,7 @@ const Sidebar = () => {
               <FontAwesomeIcon icon={faInfo} className="fa-2x" />
               <span className="nav-text">Documentation</span>
             </Link>
-          </li>
+          </li> */}
         </ul>
 
         <ul className="logout">

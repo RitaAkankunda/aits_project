@@ -6,7 +6,7 @@ const FormInput = ({ controlId, label, value, onChange, isInvalid, errorMessage,
     <Form.Group controlId={controlId}>
       <Form.Label>{label}</Form.Label>
       <Form.Control
-        type={type}
+        type={ type}
         placeholder={placeholder}
         value={value}
         onChange={onChange}
@@ -18,5 +18,6 @@ const FormInput = ({ controlId, label, value, onChange, isInvalid, errorMessage,
     </Form.Group>
   );
 };
+
 
 export default FormInput;

@@ -6,8 +6,6 @@ import Navbar from 'react-bootstrap/Navbar';
 const TopNavbar = () => {
   
 
- 
-
   return (
     <Navbar className="navbar">
       <div className="navbar-left">

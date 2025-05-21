@@ -6,13 +6,13 @@ import { useAuth } from "../contexts/AuthContext"; // Import useAuth
 import { useRole } from "../contexts/RoleContext";
 import TopNavbar from "../components/Navbar";
 import FormInput from "../components/FormInput";
-import { Form, Button } from "react-bootstrap";
+import { Form, Button, FormLabel } from "react-bootstrap";
 import "../css/pagecss/Signup.css";
 
 function Signup() {
   const { login } = useAuth(); // Use context
   const { changeRole } = useRole();
-  let navigate = useNavigate();
+  const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -20,6 +20,13 @@ function Signup() {
   const [lastName, setLastName] = useState("");
   const [role, setRole] = useState("");
   const [roleSpecificId, setRoleSpecificId] = useState("");
+  const [department,setDepartment] = useState("");
+  const departments = [
+    { code: "cs", name: "Department of Computer Science" },
+    { code: "is", name: "Department of Information Systems" },
+    { code: "it", name: "Department of Information Technology" },
+  ];
+  
   const [errors, setErrors] = useState({});
 
   const validateForm = () => {
@@ -33,11 +40,14 @@ function Signup() {
     if (!lastName) newErrors.lastName = "Last name is required";
     if (!roleSpecificId) {
       newErrors.roleSpecificId =
-        role === "student"
+        role === "STUDENT"
           ? "Student number is required"
-          : role === "lecturer"
+          : role === "LECTURER"
           ? "Lecturer number is required"
           : "Registrar number is required";
+    }
+    if (role === "LECTURER"&&!department){
+      newErrors.department="Department is required";
     }
     return newErrors;
   };
@@ -47,64 +57,94 @@ function Signup() {
     const formErrors = validateForm();
     if (Object.keys(formErrors).length > 0) {
       setErrors(formErrors);
-    } else {
-      setErrors({});
+      return; // Early return if errors exist
+    }
 
-      // Remove unnecessary fields based on the selected role
-      const requestData = {
-        email,
-        password,
-        first_name: firstName,
-        last_name: lastName,
-        role,
-        ...(role === "STUDENT" && { student_number: roleSpecificId }),
-        ...(role === "LECTURER" && { lecturer_number: roleSpecificId }),
-        ...(role === "REGISTRAR" && { registrar_number: roleSpecificId }),
-      };
+    setErrors({});
 
-      console.log("Filtered Request Data:", requestData); // Log the filtered request data
+    // Prepare request data
+    const requestData = {
+      email,
+      password,
+      first_name: firstName,
+      last_name: lastName,
+      role,
+      ...(role === "STUDENT" && { student_number: roleSpecificId }),
+      ...(role === "LECTURER" && {
+        lecturer_number: roleSpecificId,
+        department,
+      }),
+      ...(role === "REGISTRAR" && { registrar_number: roleSpecificId }),
+    };
+    console.log(requestData);
+    
 
-      try {
-        const response = await axios.post(
-          "https://rita004.pythonanywhere.com/api/register/",
-          requestData,
-          {
-            headers: {
-              Authorization: null,
-              "Content-Type": "application/json",
-            },
-          }
-        );
-
-        console.log(response); // Log the response to check if there's an issue with the response format
-
-        if (response.status === 201 || response.status === 200) {
-          changeRole(role);
-          toast.success("Signup successful");
-          login(response.data); // Call the login function with the user data
-          localStorage.setItem("isLoggedIn", "true");
-          navigate(`/dashboards/${role}/${role}-dashboard`);
-        } else {
-          toast.error("Unexpected response. Check logs.");
+    try {
+      const response = await axios.post(
+        "http://127.0.0.1:8000/api/accounts/register/", // Corrected endpoint
+        requestData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
         }
-      } catch (error) {
-        console.error("Error:", error); // Log the error if something fails
+      );
 
-        if (error.response && error.response.data) {
-          console.error("Full error response:", error.response.data); // Log the full response from the server
+      // Ensure response has the expected structure
+      if (response.data?.success && response.data?.token && response.data?.user) {
+        // Transform the response data to match your auth system
+        const authData = {
+          token: response.data.token,
+          user: {
+            id: response.data.user.id,
+            email: response.data.user.email,
+            first_name: response.data.user.first_name,
+            last_name: response.data.user.last_name,
+            role: response.data.user.role,
+            student_number: response.data.user.student_number || null,
+            lecturer_number: response.data.user.lecturer_number || null,
+            registrar_number: response.data.user.registrar_number || null,
+            department: response.data.user.department || null,
+          },
+        };
 
-          // Check if the error has a detailed message and field info
-          const errorMessage = error.response.data.message || "Signup failed.";
-          const field = error.response.data.field || "Unknown field"; // Look for 'field' in the response
+        // Call login with properly formatted data
+        login(authData);
+        changeRole(authData.user.role);
+        console.log(authData);
 
-          // Display the error message with the field if possible
-          setErrors({
-            form: `${errorMessage} (Missing: ${field})`,
-          });
-        } else {
-          setErrors({ form: "Signup failed. Please try again." });
+        // Navigate based on role
+        navigate(`/dashboards/${role.toLowerCase()}/${role.toLowerCase()}-dashboard`);
+        toast.success("Signup successful!");
+      } else {
+        throw new Error("Unexpected response format");
+      }
+    } catch (error) {
+      console.error("Signup error:", error);
+
+      let errorMessage = "Signup failed. Please try again.";
+
+      if (error.response) {
+        // Handle field-specific errors
+        if (error.response.data) {
+          // Handle Django/DRF validation errors
+          if (typeof error.response.data === "object") {
+            // Field errors (e.g., {"email": ["This field must be unique"]})
+            const fieldErrors = Object.entries(error.response.data)
+              .map(([field, messages]) => `${field}: ${messages.join(", ")}`)
+              .join("; ");
+
+            errorMessage = fieldErrors || errorMessage;
+          }
+          // Handle custom error messages
+          else if (error.response.data.detail) {
+            errorMessage = error.response.data.detail;
+          }
         }
       }
+
+      setErrors({ form: errorMessage });
+      toast.error(errorMessage);
     }
   };
 
@@ -167,18 +207,48 @@ function Signup() {
                   Pick a Role
                 </option>
                 <option value="STUDENT">Student</option>
-                {/* <option value="LECTURER">Lecturer</option> THIS IS NOT READY */}
+                <option value="LECTURER">Lecturer</option>
                 <option value="REGISTRAR">Registrar</option>
               </Form.Control>
             </Form.Group>
+
+            {role === "LECTURER"&&(
+              <Form.Group controlId="formDepartment">
+                <Form.Label>Select Department</Form.Label>
+                <Form.Control
+                  as="select"
+                  value={department}
+                  onChange={(e) => {
+                    setDepartment(e.target.value);
+                    console.log("Selected department:", e.target.value);
+                  }}
+                  isInvalid={!!errors.department}
+                >
+                  <option value="">Select Department</option>
+                  {departments.map((dept,index)=>(
+                    <option key={index} value={dept.code}>
+                      {dept.name}
+                    </option>
+                  ))}
+                </Form.Control>
+                <Form.Control.Feedback type="invalid">
+                  {errors.department}
+
+                </Form.Control.Feedback>
+
+              </Form.Group>
+            )
+
+            }
 
             <FormInput
               controlId="formRoleSpecificId"
               label={
                 role === "STUDENT"
                   ? "Student Number"
-                  : // role === "LECTURER" ? "Lecturer Number" :
-                  role === "REGISTRAR"
+                  : role === "LECTURER"
+                  ? "Lecturer Number"
+                  : role === "REGISTRAR"
                   ? "Registrar Number"
                   : "Select Role First"
               }

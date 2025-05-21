@@ -1,14 +1,15 @@
-import DashboardLayout from "../../../layouts/DashboardLayout";
 import React, { useEffect, useState } from "react";
-import "../../../css/dashboardcss/registrar/RegistrarDashboard.css";
-import { useAuth } from "../../../contexts/AuthContext"; // Import useAuth
 import axios from "axios";
+import DashboardLayout from "../../../layouts/DashboardLayout";
+import "../../../css/dashboardcss/registrar/RegistrarDashboard.css";
+import { useAuth } from "../../../contexts/AuthContext";
+import AssignedIssues from "../../dashboards/registrar/Assignedissues";
 
 const RegistrarDashboard = () => {
-  const [issues, setIssues] = useState([]); // Store all issues
-  const [loading, setLoading] = useState(true); // Loading state
-  const [error, setError] = useState(""); // Error handling state
-  const { user } = useAuth(); // Get logged-in user
+  const [issues, setIssues] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const { user } = useAuth();
 
   useEffect(() => {
     const fetchIssues = async () => {
@@ -21,7 +22,7 @@ const RegistrarDashboard = () => {
 
         console.log("User Token:", user.token);
 
-        const response = await axios.get("https://rita004.pythonanywhere.com/api/issues/", {
+        const response = await axios.get("http://127.0.0.1:8000/api/issues/", {
           headers: {
             Authorization: `Token ${user.token}`,
           },
@@ -43,7 +44,7 @@ const RegistrarDashboard = () => {
         if (error.response?.status === 401) {
           setError("You are not authorized. Please log in again.");
         } else {
-          setError("Failed to fetch issues. Please try again.");
+          setError(`Failed to fetch issues: ${error.message}`);
         }
         setLoading(false);
       }
@@ -56,46 +57,72 @@ const RegistrarDashboard = () => {
     }
   }, [user]);
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div style={{ color: "red" }}>{error}</div>;
+  // Processing issue data for the dashboard
+  const resolvedIssues = issues.filter(issue => issue.status === 'resolved');
+  const pendingIssues = issues.filter(issue => issue.status === 'pending');
+  const assignedIssues = issues.filter(issue => issue.status === 'assigned');
 
-  // Safeguard for resolved and pending issues if not available
-  const resolvedIssues = issues?.status?.resolved || []; 
-  const pendingIssues = issues?.status?.pending || [];
+  // Dashboard loading and error states
+  if (loading) {
+    return (
+      <DashboardLayout role="registrar">
+        <div className="reg-dashboard-container">
+          <div className="loading-spinner">
+            <div className="spinner"></div>
+            <p>Loading dashboard data...</p>
+          </div>
+        </div>
+      </DashboardLayout>
+    );
+  }
+
+  if (error) {
+    return (
+      <DashboardLayout role="registrar">
+        <div className="reg-dashboard-container">
+          <div className="error-message">
+            <h3>Error</h3>
+            <p>{error}</p>
+            <button onClick={() => window.location.reload()} className="retry-button">
+              Retry
+            </button>
+          </div>
+        </div>
+      </DashboardLayout>
+    );
+  }
 
   return (
     <DashboardLayout role="registrar">
       <div className="reg-dashboard-container">
-    
         <div className="reg-heading-dash">
-        <h2>Registrar Dashboard</h2>
-      
-
-      <div style={{ display: "flex", gap: "20px", marginTop: "20px" }}>
-        {/* Total Issues */}
-        <div className="stat-box">
-          <h3>Total Issues</h3>
-          <p>{issues.length}</p>
+          <h2>Registrar Dashboard</h2>
+          
+          <div className="stats-container">
+            <div className="stat-box">
+              <h3>Total Issues</h3>
+              <p>{issues.length}</p>
+            </div>
+            
+            <div className="stat-box">
+              <h3>Pending Issues</h3>
+              <p>{pendingIssues.length}</p>
+            </div>
+            
+            <div className="stat-box">
+              <h3>Assigned Issues</h3>
+              <p>{assignedIssues.length}</p>
+            </div>
+            
+            <div className="stat-box">
+              <h3>Resolved Issues</h3>
+              <p>{resolvedIssues.length}</p>
+            </div>
+          </div>
         </div>
-
-        {/* Resolved Issues */}
-        <div className="stat-box">
-          <h3>Resolved Issues</h3>
-          <p>{resolvedIssues.length}</p>
-        </div>
-
-        {/* Pending Issues */}
-        <div className="stat-box">
-          <h3>Pending Issues</h3>
-          <p>{pendingIssues.length}</p>
-        </div>
-      </div>
         
+        <AssignedIssues userToken={user?.token} />
       </div>
-
-      </div>
-     
-      
     </DashboardLayout>
   );
 };

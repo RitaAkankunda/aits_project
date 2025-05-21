@@ -22,7 +22,7 @@ function StudentIssues() {
   
         console.log("User Token:", user.token);
   
-        const response = await axios.get("https://rita004.pythonanywhere.com/api/issues/", {
+        const response = await axios.get("http://127.0.0.1:8000/api/issues/", {
           headers: {
             Authorization: `Token ${user.token}`,
           },
@@ -101,6 +101,7 @@ function StudentIssues() {
                 <th>Category</th>
                 <th>Status</th>
                 <th>Created At</th>
+                <th>Attachment</th>
               </tr>
             </thead>
             <tbody>
@@ -112,6 +113,20 @@ function StudentIssues() {
                   <td>{issue.status}</td>
                   
                   <td>{new Date(issue.created_at).toLocaleDateString()}</td>
+                  <td>
+                    {issue.attachment ? (
+                      <a
+                        href={issue.attachment}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        download
+                      >
+                        View Attachment
+                      </a>
+                    ) : (
+                      "No Attachment"
+                    )}
+                  </td>
                 </tr>
               ))}
             </tbody>

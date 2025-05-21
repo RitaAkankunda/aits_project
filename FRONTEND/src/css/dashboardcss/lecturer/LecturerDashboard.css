@@ -1,0 +1,58 @@
+/* Styling for the container */
+.stat-box {
+  border: 2px solid #ccc; /*Border for the boxes*/
+  border-radius: 8px; /* Rounded corners */
+  padding: 20px; /*  space inside the box */
+  width: 200px; /* Fixed width for each box */
+  text-align: center; /* Centers the text inside the box */
+  background-color: #f9f9f9; /* background color for each box */
+  margin: 10px; /* Adds separation between the boxes */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Adds a slight shadow around each box for effect */
+  margin-left: 10%;
+  /*added
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;*/ 
+}
+
+/* Styling for the title (h3) inside the box */
+.stat-box h3 {
+  font-size: 1.5rem; /* Size of the title text */
+  color: #333; /*color for the title */
+  margin-bottom: 10px; /* Space between the title and the number */
+}
+
+/* Styling for the number (p) inside the box */
+.stat-box p { 
+  font-size: 2rem; /* Larger font size for the stat number */
+  font-weight: bold; /* Makes the number bold */
+  color: #2b8c45; /* Green color for the stats number */
+}
+
+/* Ensure the flex layout doesn't stack items on smaller screens */
+@media (max-width: 768px) {
+  .stat-box {
+    width: 100%; /* Full width for each box on small screens */
+    margin: 10px 0; /* Space between each box vertically */
+  }
+}
+
+
+
+
+.lec-heading-dash h2{
+  margin-left: -20%;
+
+}
+
+
+
+  
+.lecturer-dashboard-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+  margin-left: 60%;
+}
+  

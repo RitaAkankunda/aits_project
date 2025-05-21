@@ -29,7 +29,7 @@ body {
   max-width: 100%;
   margin: auto;
   padding: 0 40px;
-  margin-left: 50%; /* Adjusted this margin */
+  margin-left: 60%; /* Adjusted this margin */
 }
 
 /* Header Section */
@@ -46,11 +46,13 @@ body {
   font-weight: 700;
   color: var(--primary);
   margin-bottom: 0.75rem;
+  margin-left: -40%;
 }
 
 .student-dashboard-subtitle {
   font-size: 1.1rem;
   color: #6B7280;
+  margin-left: -40%;
 }
 
 /* Main Content Layout */

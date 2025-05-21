@@ -21,7 +21,7 @@ const IssueCard = ({ id, title, description, status, comments = [], onUpdateStat
     <div className="issue-card">
       <h3>{title}</h3>
       <p><strong>Description:</strong> {description}</p>
-      <p><strong>Status:</strong> {status}</p> */
+      <p><strong>Status:</strong> {status}</p> 
 
       {/* Buttons to change issue status */}
       <div className="status-buttons">

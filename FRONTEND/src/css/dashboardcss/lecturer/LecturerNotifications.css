@@ -1,0 +1,39 @@
+:root {
+    --primary: #2A5C8D;
+    --secondary: #3F88C5;
+    --accent: #44BBA4;
+    --background: #F7F9FC;
+    --text: #2B2D42;
+    --border: #E0E4E9;
+    --radius: 12px;
+    --shadow: 0 3px 15px rgba(0,0,0,0.1);
+  }
+  
+    
+    /* Base Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      background: var(--background);
+      color: var(--secondary);
+      line-height: 1.6;
+      margin-left: -75%;
+    }
+
+    .lec-notifs-container {
+      margin-left: 50%;
+    }
+  
+    .lec-heading-notifs h1{
+      margin-left: 35%;
+  
+    }
+  
+    .lec-heading-notifs p{
+      margin-left: 0;
+  
+    }
