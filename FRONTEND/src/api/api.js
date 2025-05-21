@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "http://127.0.0.1:8000/api"; 
+const BASE_URL = "https://rita004.pythonanywhere.com/api"; 
 
 // Login function to authenticate the user
 export const login = async (email, password) => {

@@ -41,7 +41,7 @@ function Login() {
   
     try {
       const response = await axios.post(
-        "http://localhost:8000/api/accounts/login/", 
+        "https://rita004.pythonanywhere.com/api/login/", 
         { email, password },
         {
           headers: {

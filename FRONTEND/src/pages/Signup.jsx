@@ -81,7 +81,7 @@ function Signup() {
 
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8000/api/accounts/register/", // Corrected endpoint
+        "https://rita004.pythonanywhere.com/api/accounts/register/", // Corrected endpoint
         requestData,
         {
           headers: {

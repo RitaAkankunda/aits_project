@@ -50,7 +50,7 @@ const ResetPassword = () => {
     setIsSubmitting(true);
 
     try {
-      const res = await axios.post("http://localhost:8000/api/accounts/reset-password/", {
+      const res = await axios.post("https://rita004.pythonanywhere.com/api/accounts/reset-password/", {
         id,
         token,
         password: newPassword,

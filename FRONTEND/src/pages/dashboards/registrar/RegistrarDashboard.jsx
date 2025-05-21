@@ -22,7 +22,7 @@ const RegistrarDashboard = () => {
 
         console.log("User Token:", user.token);
 
-        const response = await axios.get("http://127.0.0.1:8000/api/issues/", {
+        const response = await axios.get("https://rita004.pythonanywhere.com/api/issues/", {
           headers: {
             Authorization: `Token ${user.token}`,
           },

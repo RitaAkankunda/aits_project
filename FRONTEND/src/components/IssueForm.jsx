@@ -33,7 +33,7 @@ const IssueForm = () => {
   useEffect(() => {
     const fetchDepartments = async () => {
       try {
-        const response = await axios.get("http://127.0.0.1:8000/api/departments/", {
+        const response = await axios.get("https://rita004.pythonanywhere.com/api/departments/", {
           headers: {
             Authorization: `Token ${user?.token}`,
           },
@@ -74,7 +74,7 @@ const IssueForm = () => {
       }
 
       const response = await axios.post(
-        "http://127.0.0.1:8000/api/issues/",
+        "https://rita004.pythonanywhere.com/api/issues/",
         formData,
         {
           headers: {
