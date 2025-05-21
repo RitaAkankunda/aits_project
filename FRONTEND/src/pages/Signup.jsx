@@ -265,7 +265,7 @@ function Signup() {
             {errors.form && <div className="text-danger">{errors.form}</div>}
 
             <Form.Text className="text-right">
-              Already Registered? <a href="/login">Sign in</a>
+              Already Registered? <Link to="/login">Login</Link>
             </Form.Text>
           </Form>
         </div>
