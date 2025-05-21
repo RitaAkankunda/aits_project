@@ -1,7 +1,7 @@
 import React from "react";
 import { useAuth } from "../../../contexts/AuthContext";
 import DashboardLayout from "../../../layouts/DashboardLayout";
-import "../../../css/dashboardcss/Registrar/RegistrarProfile.css";
+import "../../../css/dashboardcss/registrar/RegistrarProfile.css";
 
 function RegistrarProfile() {
   const { user, isLoggedIn } = useAuth(); // Use user directly from context
