@@ -41,7 +41,7 @@ function Login() {
   
     try {
       const response = await axios.post(
-        "https://backendaits.onrender.com/api/login/", 
+        "https://backendaits.onrender.com/api/accounts/login/", 
         { email, password },
         {
           headers: {
