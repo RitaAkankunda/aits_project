@@ -8,6 +8,7 @@ import TopNavbar from "../components/Navbar";
 import FormInput from "../components/FormInput";
 import { Form, Button, FormLabel } from "react-bootstrap";
 import "../css/pagecss/Signup.css";
+import { Link } from "react-router-dom";
 
 function Signup() {
   const { login } = useAuth(); // Use context
