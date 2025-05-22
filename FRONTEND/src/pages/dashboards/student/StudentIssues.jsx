@@ -22,7 +22,7 @@ function StudentIssues() {
   
         console.log("User Token:", user.token);
   
-        const response = await axios.get("https://rita004.pythonanywhere.com/api/issues/", {
+        const response = await axios.get("https://backendaits.onrender.com/api/issues/", {
           headers: {
             Authorization: `Token ${user.token}`,
           },

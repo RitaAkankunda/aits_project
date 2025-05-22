@@ -62,7 +62,7 @@ const AssignedIssues = ({ userToken }) => {
       }
       
       try {
-        const response = await fetch('https://rita004.pythonanywhere.com/api/issues/?status=assigned', {
+        const response = await fetch('https://backendaits.onrender.com/api/issues/?status=assigned', {
           headers: {
             'Authorization': `Token ${userToken}`,
             'Content-Type': 'application/json'

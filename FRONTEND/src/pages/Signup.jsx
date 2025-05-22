@@ -81,7 +81,7 @@ function Signup() {
 
     try {
       const response = await axios.post(
-        "https://rita004.pythonanywhere.com/api/accounts/register/", // Corrected endpoint
+        "https://backendaits.onrender.com/api/accounts/register/", // Corrected endpoint
         requestData,
         {
           headers: {

@@ -33,7 +33,7 @@ const IssueForm = () => {
   useEffect(() => {
     const fetchDepartments = async () => {
       try {
-        const response = await axios.get("https://rita004.pythonanywhere.com/api/departments/", {
+        const response = await axios.get("https://backendaits.onrender.com/api/departments/", {
           headers: {
             Authorization: `Token ${user?.token}`,
           },
@@ -74,7 +74,7 @@ const IssueForm = () => {
       }
 
       const response = await axios.post(
-        "https://rita004.pythonanywhere.com/api/issues/",
+        "https://backendaits.onrender.com/api/issues/",
         formData,
         {
           headers: {

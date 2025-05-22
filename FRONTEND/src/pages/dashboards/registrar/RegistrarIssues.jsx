@@ -32,7 +32,7 @@ function RegistrarIssues() {
   
   const confirmDeletion = async () => {
     try {
-      await axios.delete(`https://rita004.pythonanywhere.com/api/issues/${issueToDelete}/`, {
+      await axios.delete(`https://backendaits.onrender.com/api/issues/${issueToDelete}/`, {
         headers: {
           Authorization: `Token ${user.token}`,
         },
@@ -69,7 +69,7 @@ function RegistrarIssues() {
 
         console.log("User Token:", user.token);
 
-        const response = await axios.get("https://rita004.pythonanywhere.com/api/issues/", {
+        const response = await axios.get("https://backendaits.onrender.com/api/issues/", {
           headers: {
             Authorization: `Token ${user.token}`,
           },

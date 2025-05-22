@@ -12,13 +12,13 @@ import React, { useState, useEffect } from "react";
  
    useEffect(() => {
      // Fetch issue details
-     fetch(`https://rita004.pythonanywhere.com/api/issues/${id}`)
+     fetch(`https://backendaits.onrender.com/api/issues/${id}`)
        .then((res) => res.json())
        .then((data) => setIssue(data))
        .catch((error) => console.error("Error fetching issue details:", error));
  
      // Fetch departments
-     fetch("https://rita004.pythonanywhere.com/api/departments")
+     fetch("https://backendaits.onrender.com/api/departments")
        .then((res) => res.json())
        .then((data) => setDepartments(data))
        .catch((error) => console.error("Error fetching departments:", error));
@@ -29,7 +29,7 @@ import React, { useState, useEffect } from "react";
      setShowLecturers(true);
  
      // Fetch lecturers based on selected department
-     fetch(`https://rita004.pythonanywhere.com/api/departments/${e.target.value}/lecturers`)
+     fetch(`https://backendaits.onrender.com/api/departments/${e.target.value}/lecturers`)
        .then((res) => res.json())
        .then((data) => setLecturers(data))
        .catch((error) => console.error("Error fetching lecturers:", error));
@@ -41,7 +41,7 @@ import React, { useState, useEffect } from "react";
        return;
      }
      
-     fetch(`https://rita004.pythonanywhere.com/api/issues/${id}/assign`, {
+     fetch(`https://backendaits.onrender.com/api/issues/${id}/assign`, {
        method: "POST",
        headers: { "Content-Type": "application/json" },
        body: JSON.stringify({ lecturer_id: selectedLecturer }),

@@ -27,7 +27,7 @@ const ForgotPassword = () => {
     setIsSubmitting(true);
     
     try {
-      const res = await axios.post("https://rita004.pythonanywhere.com/api/accounts/forgot-password/", {
+      const res = await axios.post("https://backendaits.onrender.com/api/accounts/forgot-password/", {
         email: email.trim(),
       });
       

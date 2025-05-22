@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "https://rita004.pythonanywhere.com/api"; 
+const BASE_URL = "https://backendaits.onrender.com/api"; 
 
 // Login function to authenticate the user
 export const login = async (email, password) => {

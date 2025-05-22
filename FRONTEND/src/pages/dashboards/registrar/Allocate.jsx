@@ -29,7 +29,7 @@ const AllocateIssue = () => {
   useEffect(() => {
     const fetchIssue = async () => {
       try {
-        const response = await axios.get(`https://rita004.pythonanywhere.com/api/issues/${id}/`, {
+        const response = await axios.get(`https://backendaits.onrender.com/api/issues/${id}/`, {
           headers: {
             Authorization: `Token ${user.token}`,
           },
@@ -46,7 +46,7 @@ const AllocateIssue = () => {
   useEffect(() => {
     const getLecturers = async () => {
       try {
-        const url = `https://rita004.pythonanywhere.com/api/accounts/departments/${selectedDepartment}/lecturers/`;
+        const url = `https://backendaits.onrender.com/api/accounts/departments/${selectedDepartment}/lecturers/`;
         console.log("Fetching from:", url); // Log the URL being called
         
         const response = await axios.get(url, {
@@ -79,7 +79,7 @@ const AllocateIssue = () => {
   const handleAllocate = async () => {
     try {
       await axios.post(
-        `https://rita004.pythonanywhere.com/api/issues/${id}/assign/`,
+        `https://backendaits.onrender.com/api/issues/${id}/assign/`,
         {
           assigned_to: selectedLecturer,
         },

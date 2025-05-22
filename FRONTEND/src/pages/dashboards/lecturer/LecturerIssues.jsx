@@ -23,7 +23,7 @@ function LecturerIssues() {
           return;
         }
 
-        const response = await axios.get("https://rita004.pythonanywhere.com/api/issues/", {
+        const response = await axios.get("https://backendaits.onrender.com/api/issues/", {
           headers: {
             Authorization: `Token ${user.token}`,
           },
@@ -58,7 +58,7 @@ function LecturerIssues() {
   const handleResolve = async (id) => {
     try {
       await axios.post(
-        `https://rita004.pythonanywhere.com/api/issues/${id}/resolve/`,
+        `https://backendaits.onrender.com/api/issues/${id}/resolve/`,
         {},
         {
           headers: {

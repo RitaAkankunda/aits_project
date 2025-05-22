@@ -3,17 +3,15 @@
 ## Group C Members
 
 | Name                  | Registration Number |
-|-----------------------|---------------------|
+| --------------------- | ------------------- |
 | Kato Adrian Mugerwa   | 24/U/25909/PS       |
 | Tino Zoe Ramona       | 24/U/11508/PS       |
 | Akankunda Rita        | 24/U/03072/PS       |
 | Nakawunde Cana        | 24/U/08407/PS       |
 | Ayesiga Calvin Rodney | 24/U/04101/PS       |
-| nicole mariah | 24/U/04101/PS       |
+| nicole mariah         | 24/U/04101/PS       |
 
-backendurl = "https://rita004.pythonanywhere.com/api/"
-
-
+backendurl = "https://backendaits.onrender.com/api/"
 
 This project is a web application for managing academic issues. It currently supports:
 
@@ -46,13 +44,14 @@ This project is a web application for managing academic issues. It currently sup
 ## Step 2: Install Dependencies
 
 1. **Backend Dependencies**:
+
    - Create a Virtual Environment: Create a new virtual environment in the project directory. This step ensures that all dependencies are isolated for the project:
 
    ```bash
    python -m venv venv
    ```
 
-   - Activate the Virtual Environment:(make sure you're in the backend folder first) 
+   - Activate the Virtual Environment:(make sure you're in the backend folder first)
 
    On Windows:
 
@@ -65,8 +64,8 @@ This project is a web application for managing academic issues. It currently sup
    ```bash
    pip install -r requirements.txt
    ```
-   
-3. **Frontend Dependencies**:
+
+2. **Frontend Dependencies**:
    - Navigate to the `frontend` folder:
      ```bash
      cd ../frontend
@@ -75,7 +74,6 @@ This project is a web application for managing academic issues. It currently sup
      ```bash
      npm install
      ```
-
 
 ---
 

@@ -41,7 +41,7 @@ function Login() {
   
     try {
       const response = await axios.post(
-        "https://rita004.pythonanywhere.com/api/login/", 
+        "https://backendaits.onrender.com/api/login/", 
         { email, password },
         {
           headers: {
